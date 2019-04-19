@@ -52,18 +52,52 @@ function sessionsTest() {
 };
 
 function calcCart() {
+      sessionStorage.setItem("confName", document.getElementById("fnBox").value + " " + document.getElementById("lnBox").value + "")
       var confName = "" + document.getElementById("fnBox").value + " " + document.getElementById("lnBox").value + "";
+      sessionStorage.setItem("confGroup", document.getElementById("groupBox").value)
       var confGroup = document.getElementById("groupBox").value;
+      sessionStorage.setItem("confMail", document.getElementById("mailBox").value)
       var confMail = document.getElementById("mailBox").value;
+      sessionStorage.setItem("confPhone", document.getElementById("phoneBox").value)
       var confPhone = document.getElementById("phoneBox").value;
+      sessionStorage.setItem("confBanquet", document.getElementById("banquetBox").value)
       var confBanquet = document.getElementById("banquetBox").value;
+      sessionStorage.setItem("confBanquetCost", confBanquet * 55)
       var confBanquetCost = confBanquet * 55;
       var sessionBox = document.getElementById("sessionBox");
-      if (sessionBox.selectedIndex === -1) {
-            var confSession = sessionBox.selectedIndex.innerText;
-            var confSessionCost = sessionBox.selectedIndex.value;
+      if (sessionBox.selectedIndex !== -1) {
+            sessionStorage.setItem("confSession", sessionBox[sessionBox.selectedIndex].innerText)
+            var confSession = sessionBox[sessionBox.selectedIndex].innerText;
+            sessionStorage.setItem("confSessionCost", sessionBox[sessionBox.selectedIndex].value)
+            var confSessionCost = sessionBox[sessionBox.selectedIndex].value;
       } else {
+            sessionStorage.setItem("confSession", "")
             var confSession = "";
+            sessionStorage.setItem("confSessionCost", 0)
             var confSessionCost = 0;
       }
+      if (document.getElementById("mediaCB").checked == true) {
+            sessionStorage.setItem("confPack", "yes")
+            var confPack = "yes";
+            sessionStorage.setItem("confPackCost", 115)
+            var confPackCost = 115;
+      } else {
+            sessionStorage.setItem("confPack", "no")
+            var confPack = "no";
+            sessionStorage.setItem("confPackCost", 0)
+            var confPackCost = 0;
+      }
+      sessionStorage.setItem("confTotal", parseFloat(confSessionCost) + parseFloat(confBanquetCost) + parseFloat(confPackCost))
+      var confTotal = parseFloat(confSessionCost) + parseFloat(confBanquetCost) + parseFloat(confPackCost);
 };
+
+function writeSessionValues() {
+      document.getElementById("regName").textContent = confName;
+      document.getElementById("regGroup").textContent = confGroup;
+      document.getElementById("regEmail").textContent = confMail;
+      document.getElementById("regPhone").textContent = confPhone;
+      document.getElementById("regSession").textContent = confSession;
+      document.getElementById("regBanquet").textContent = confBanquet;
+      document.getElementById("regPack").textContent = confPack;
+
+}
