@@ -27,7 +27,7 @@
 
 
 */
-
+// When the fields are interacted with, functions are run to update the page and include the information the user entered. These are stored as session variables so they can be accessed from multiple sources
 window.addEventListener("load", function () {
       calcCart()
       var regForm = document.forms.regForm;
@@ -41,7 +41,7 @@ window.addEventListener("load", function () {
       regForm.elements.sessionBox.onchange = calcCart;
       regForm.elements.mediaCB.onclick = calcCart;
 })
-
+// Tests whether or not a session package has been selected
 function sessionsTest() {
       var sessionBox = document.getElementById("sessionBox");
       if (sessionBox.selectedIndex === -1) {
@@ -51,53 +51,51 @@ function sessionsTest() {
       }
 };
 
+// Gets the values of the fields, and stores the values within variables, so that they can be uused later. The variables are used later on to update the page with the information.
 function calcCart() {
+      // Gets the values of the fields, and stores the values within variables, so that they can be uused later. The variables are used later on to update the page with the information.
       sessionStorage.setItem("confName", document.getElementById("fnBox").value + " " + document.getElementById("lnBox").value + "")
-      var confName = "" + document.getElementById("fnBox").value + " " + document.getElementById("lnBox").value + "";
       sessionStorage.setItem("confGroup", document.getElementById("groupBox").value)
-      var confGroup = document.getElementById("groupBox").value;
       sessionStorage.setItem("confMail", document.getElementById("mailBox").value)
-      var confMail = document.getElementById("mailBox").value;
       sessionStorage.setItem("confPhone", document.getElementById("phoneBox").value)
-      var confPhone = document.getElementById("phoneBox").value;
       sessionStorage.setItem("confBanquet", document.getElementById("banquetBox").value)
       var confBanquet = document.getElementById("banquetBox").value;
       sessionStorage.setItem("confBanquetCost", confBanquet * 55)
       var confBanquetCost = confBanquet * 55;
       var sessionBox = document.getElementById("sessionBox");
+      // Gets what options are selected from the number of people attending the banquet, and whether the person has purchased a media pack, which is stored in variables to be used later
       if (sessionBox.selectedIndex !== -1) {
             sessionStorage.setItem("confSession", sessionBox[sessionBox.selectedIndex].innerText)
-            var confSession = sessionBox[sessionBox.selectedIndex].innerText;
             sessionStorage.setItem("confSessionCost", sessionBox[sessionBox.selectedIndex].value)
             var confSessionCost = sessionBox[sessionBox.selectedIndex].value;
       } else {
             sessionStorage.setItem("confSession", "")
-            var confSession = "";
             sessionStorage.setItem("confSessionCost", 0)
             var confSessionCost = 0;
       }
       if (document.getElementById("mediaCB").checked == true) {
             sessionStorage.setItem("confPack", "yes")
-            var confPack = "yes";
             sessionStorage.setItem("confPackCost", 115)
             var confPackCost = 115;
       } else {
             sessionStorage.setItem("confPack", "no")
-            var confPack = "no";
             sessionStorage.setItem("confPackCost", 0)
             var confPackCost = 0;
       }
-      sessionStorage.setItem("confTotal", parseFloat(confSessionCost) + parseFloat(confBanquetCost) + parseFloat(confPackCost))
-      var confTotal = parseFloat(confSessionCost) + parseFloat(confBanquetCost) + parseFloat(confPackCost);
+      // Gets the total amount of money
+      sessionStorage.setItem("confTotal", parseFloat(confSessionCost) + parseFloat(confBanquetCost) + parseFloat(confPackCost));
+      //Runs the function that updates the page
+      writeSessionValues();
 };
 
 function writeSessionValues() {
-      document.getElementById("regName").textContent = confName;
-      document.getElementById("regGroup").textContent = confGroup;
-      document.getElementById("regEmail").textContent = confMail;
-      document.getElementById("regPhone").textContent = confPhone;
-      document.getElementById("regSession").textContent = confSession;
-      document.getElementById("regBanquet").textContent = confBanquet;
-      document.getElementById("regPack").textContent = confPack;
-
+      // updates the page with information that the user entered.
+      document.getElementById("regName").textContent = sessionStorage.getItem("confName");
+      document.getElementById("regGroup").textContent = sessionStorage.getItem("confGroup");
+      document.getElementById("regEmail").textContent = sessionStorage.getItem("confMail");
+      document.getElementById("regPhone").textContent = sessionStorage.getItem("confPhone");
+      document.getElementById("regSession").textContent = sessionStorage.getItem("confSession");
+      document.getElementById("regBanquet").textContent = sessionStorage.getItem("confBanquet");
+      document.getElementById("regPack").textContent = sessionStorage.getItem("confPack");
+      document.getElementById("regTotal").textContent = "$" + sessionStorage.getItem("confTotal")
 }
